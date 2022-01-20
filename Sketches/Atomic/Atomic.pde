@@ -5,71 +5,87 @@
 // Don't use rotate()
 // Use vectors and trigonometry
 
-float xB, xR, xG, yB, yR, yG;
-float timeA = 0.0;
-
-void setup(){
+void setup() {
   size(400, 400);
 }
-void draw(){
-  
+void draw() {
+
   drawBackground();
-  
+
   ///////////////// START YOUR CODE HERE:
-  
-  timeA++;
+
   noStroke();
-  
-   // Red Electron
+
+  PVector red = FindOvalPos(0,0);
+  PVector green = FindOvalPos(60, 1);
+  PVector blue = FindOvalPos(-60, 2);
+
+  // Red Electron
   fill(255, 100, 100);
-  xR = map(cos(radians(timeA)), -1, 1, 50, 350);
-  yR = map(sin(radians(timeA)), -1, 1, 150, 250);
-  
-  ellipse(xR, yR, 15, 15);  
-  
+  ellipse(red.x, red.y, 15, 15);  
+
   // Green Electron
   fill(100, 255, 100);
-  xG = map(cos(radians(timeA)), -1, 1, 50, 350);
-  yG = map(sin(radians(timeA)), -1, 1, 50, 350);
-  
-  ellipse(xG, yG, 15, 15);
-  
+  ellipse(green.x, green.y, 15, 15);
+
   // Blue Electron
   fill(100, 100, 255);
-  xB = map(cos(radians(timeA)), -1, 1, 50, 350);
-  yB = map(sin(radians(timeA)), -1, 1, 50, 350);
-  
-  ellipse(xB * sin(2*PI/3), yB * cos(2*PI/3), 15, 15);
-  println(xB * sin(2*PI/3) + ", " + yB * cos(2*PI/3));
+  ellipse(blue.x, blue.y, 15, 15);
   
   ///////////////// END YOUR CODE HERE
-  
 }
-void drawBackground(){
+PVector FindOvalPos(float rotateAmount, float time)
+{
+  float timeA = millis()/1000.0;
+
+  //finds path on the oval
+  float x = 150 * cos(timeA);
+  float y = 50 * sin(timeA);
+
+  //converts coordinates to polar
+  float angle = atan2(y, x);
+  float mag = sqrt(x*x + y*y);
+
+  //rotates vector
+  angle -= radians(rotateAmount);
+
+  //convert back to cartesian
+  x = mag * cos(angle);
+  y = mag * sin(angle);
+
+  //translate to center of screen
+  x += width/2;
+  y += height/2;
+
+  return new PVector(x, y);
+}
+
+
+void drawBackground() {
   background(0);
   noStroke();
   fill(255);
-  ellipse(200,200,50,50);
+  ellipse(200, 200, 50, 50);
   noFill();
   strokeWeight(5);
-  
+
   pushMatrix();
-  translate(200,200);
-  stroke(255,100,100);
-  ellipse(0,0,300,100);
+  translate(200, 200);
+  stroke(255, 100, 100);
+  ellipse(0, 0, 300, 100);
   popMatrix();
-  
+
   pushMatrix();
-  translate(200,200);
+  translate(200, 200);
   rotate(PI/1.5);
-  stroke(100,255,100);
-  ellipse(0,0,300,100);
+  stroke(100, 255, 100);
+  ellipse(0, 0, 300, 100);
   popMatrix();
-  
+
   pushMatrix();
-  translate(200,200);
+  translate(200, 200);
   rotate(2*PI/1.5);
-  stroke(100,100,255);
-  ellipse(0,0,300,100);
+  stroke(100, 100, 255);
+  ellipse(0, 0, 300, 100);
   popMatrix();
 }
