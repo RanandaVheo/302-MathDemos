@@ -1,13 +1,12 @@
 
-
-
 float xStart = 20;
 float xEnd = 780;
 
-float timeTotal = 3;
-float timeCurr = 0;
-float timePrev;
+float timeTotal = 5;
+float timeCurrent = 0;
 
+float timeS = 0;
+float timePrev = 0;
 
 void setup()
 {
@@ -18,13 +17,13 @@ void draw()
 {
   background(64);
 
-  timeCurr = millis()/1000.0;
-  float dt = timeCurr - timePrev;
-  timePrev = timeCurr;
+  timeS = millis()/1000.0;
+  float dt = timeS - timePrev;
+  timePrev = timeS;
   
-  timeCurr += dt;
+  timeCurrent += dt;
 
-  float p = timeCurr / timeTotal;
+  float p = timeCurrent / timeTotal;
   p = constrain(p, 0, 1); //clamp
   
   p = p * p * (3 - 2 * p);
@@ -34,11 +33,7 @@ void draw()
   ellipse(x, height/2, 30, 30);
 }
 
-
-
 void mousePressed()
 {
-  timeCurr = 0;
-  
-  
+  timeCurrent = 0;
 }
